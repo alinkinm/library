@@ -37,4 +37,8 @@ public class EditionDto {
         return authors.stream().map(EditionDto::from).collect(Collectors.toList());
     }
 
+    public static String forSearch(Edition edition) {
+        return edition.getName() + " " + edition.getDescription();
+    }
+
 }

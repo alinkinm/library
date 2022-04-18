@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.test.library.models.Operation;
-import ru.test.library.models.Visitor;
 
 import java.time.Instant;
 import java.util.List;
@@ -27,9 +26,6 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
 
     @Query(value = "select * from operation where visitor_id=?1", nativeQuery = true)
     List<Operation> findAllByVisitorId(long visitorId);
-
-    @Query(value = "select visitor_id from operation where edition_id=?1 and status=0", nativeQuery = true)
-    List<Visitor> getKeepersByBookId(long bookId);
 
     @Query(value = "select * from operation where time >?1 and time < ?2", nativeQuery = true)
     List<Operation> getStatistics(Instant start, Instant finish);

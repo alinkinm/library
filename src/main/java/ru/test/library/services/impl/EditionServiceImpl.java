@@ -11,6 +11,9 @@ import ru.test.library.repositories.EditionRepository;
 import ru.test.library.services.EditionService;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class EditionServiceImpl implements EditionService {
@@ -23,13 +26,21 @@ public class EditionServiceImpl implements EditionService {
 
     @Override
     public EditionDto addEdition(EditionDto edition) {
-        return EditionDto.from(editionRepository.save(
+        EditionDto newDto = EditionDto.from(editionRepository.save(
                 Edition.builder()
                         .name(edition.getName())
                         .description(edition.getDescription())
                         .numberOfBooks(edition.getNumberOfBooks())
-                        .booksAvailable(edition.getBooksAvailable())
+                        .booksAvailable(edition.getNumberOfBooks())
                         .build()));
+        editionRepository.updateTsVector(newDto.getId());
+        return newDto;
+    }
+
+    @Override
+    public List<String> search(String line) {
+        List<Edition> editions = editionRepository.customSearch(line);
+        return editions.stream().map(EditionDto::forSearch).collect(Collectors.toList());
     }
 
     @Override
@@ -41,5 +52,6 @@ public class EditionServiceImpl implements EditionService {
                 .totalPages(editionPage.getTotalPages())
                 .build();
     }
+
 
 }

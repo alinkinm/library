@@ -11,6 +11,7 @@ import ru.test.library.exceptions.NoBooksLeftException;
 import ru.test.library.models.Operation;
 import ru.test.library.repositories.EditionRepository;
 import ru.test.library.repositories.OperationRepository;
+import ru.test.library.repositories.VisitorRepository;
 import ru.test.library.services.OperationService;
 
 import java.time.Instant;
@@ -22,6 +23,7 @@ public class OperationServiceImpl implements OperationService {
 
     private final OperationRepository operationRepository;
     private final EditionRepository editionRepository;
+    private final VisitorRepository visitorRepository;
 
     @Override
     public OperationDto takeBook(long visitorId, long editionId) {
@@ -72,7 +74,7 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public List<VisitorDto> showAllBookKeepers(long editionID) {
-        return VisitorDto.from(operationRepository.getKeepersByBookId(editionID));
+        return VisitorDto.from(visitorRepository.getKeepersByBookId(editionID));
     }
 
     @Override

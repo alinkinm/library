@@ -24,6 +24,5 @@ public class Operation {
     private Long editionId;
     private Instant time;
     private int status;
-    //0-taken, 1-in library
 
 }
