@@ -19,7 +19,7 @@ public interface EditionRepository extends JpaRepository<Edition, Long> {
     @Query(value = "update edition set document = to_tsvector(name || ' ' || description) where id=?1", nativeQuery = true)
     void updateTsVector(long id);
 
-    
+
     Page<Edition> findAll(Pageable pageable);
 
     @Query(value = "select books_available from edition where id=?1", nativeQuery = true)
